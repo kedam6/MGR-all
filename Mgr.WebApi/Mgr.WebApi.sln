@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mgr.Client", "Mgr.Client\Mgr.Client.csproj", "{7CED610D-371B-4CE9-BEAB-C4AB2D0C5761}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mgr.Common", "Mgr.Common\Mgr.Common.csproj", "{5DF2C0A4-1142-4A5E-B12C-F0A36369C5D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassificatorValidator", "ClassificatorValidator\ClassificatorValidator.csproj", "{37C5D01C-2067-472F-AE96-3D521339C3D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskSchedulerApps", "TaskSchedulerApps", "{71F6BA2C-FFA5-45CE-9609-93BDDF975BFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{5D32B4BA-BF72-4B5E-8AE0-D74899E5CC14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoPreparer", "VideoPreparer\VideoPreparer.csproj", "{045A6C3A-50F9-4B7E-9619-6E74E07FA93A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CED610D-371B-4CE9-BEAB-C4AB2D0C5761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CED610D-371B-4CE9-BEAB-C4AB2D0C5761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CED610D-371B-4CE9-BEAB-C4AB2D0C5761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CED610D-371B-4CE9-BEAB-C4AB2D0C5761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF2C0A4-1142-4A5E-B12C-F0A36369C5D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF2C0A4-1142-4A5E-B12C-F0A36369C5D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF2C0A4-1142-4A5E-B12C-F0A36369C5D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF2C0A4-1142-4A5E-B12C-F0A36369C5D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C5D01C-2067-472F-AE96-3D521339C3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C5D01C-2067-472F-AE96-3D521339C3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C5D01C-2067-472F-AE96-3D521339C3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C5D01C-2067-472F-AE96-3D521339C3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{045A6C3A-50F9-4B7E-9619-6E74E07FA93A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{045A6C3A-50F9-4B7E-9619-6E74E07FA93A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{045A6C3A-50F9-4B7E-9619-6E74E07FA93A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{045A6C3A-50F9-4B7E-9619-6E74E07FA93A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5DF2C0A4-1142-4A5E-B12C-F0A36369C5D8} = {5D32B4BA-BF72-4B5E-8AE0-D74899E5CC14}
+		{37C5D01C-2067-472F-AE96-3D521339C3D1} = {71F6BA2C-FFA5-45CE-9609-93BDDF975BFF}
+		{045A6C3A-50F9-4B7E-9619-6E74E07FA93A} = {71F6BA2C-FFA5-45CE-9609-93BDDF975BFF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CD16CA4-D496-4C90-9C42-C77C7D256E94}
+	EndGlobalSection
+EndGlobal
