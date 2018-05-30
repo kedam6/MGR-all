@@ -2,6 +2,7 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,7 +71,28 @@ namespace ClassificatorValidator
 
         private static void CheckIfNewClassificatorNeeded(RabbitMqClassificatorMessage tempFileMetadata)
         {
-            //nothing here
+            string sparkAddress = @"spark://10.0.75.1:7077";
+
+            Process proc = new Process
+            {
+
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = @"C:\spark\bin\spark-submit.cmd",
+                    Arguments = $@"--master {sparkAddress} C:\recognition\sparkscript.py -i {tempFileMetadata.Guid} -p C:\recognition\model.txt -m C:\recognition\model.caffemodel",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+
+            proc.Start();
+
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                string line = proc.StandardOutput.ReadLine();
+                Console.WriteLine(line);
+            }
         }
 
 
