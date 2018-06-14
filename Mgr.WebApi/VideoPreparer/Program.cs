@@ -1,4 +1,5 @@
 ﻿using Accord.Video.FFMPEG;
+using Microsoft.Hadoop.WebHDFS;
 using Newtonsoft.Json;
 using NReco.VideoConverter;
 using RabbitMQ.Client;
@@ -89,30 +90,58 @@ namespace VideoPreparer
 
         private static RabbitMqClassificatorMessage SplitIntoFramesAndSaveOnServer(RabbitMqFileMessage metadata)
         {
-            var newMetadata = new RabbitMqClassificatorMessage();
-
-            var frames = GetFrames(metadata.FilePath).ToArray();
-
-            var newGuid = Guid.NewGuid();
-            var newPath = $"C:\\Vids\\{newGuid.ToString()}\\";
-
-            if (!Directory.Exists(newPath))
-                Directory.CreateDirectory(newPath);
-            
-
-            for(int i = 0; i < frames.Length; i++)
+            try
             {
-                frames[i].Save(Path.Combine(newPath, $"{i}.jpg"), ImageFormat.Jpeg);
+                var newMetadata = new RabbitMqClassificatorMessage();
+                Uri myUri = new Uri("http://localhost:50070");
+                string userName = "Quinn";
+                WebHDFSClient myClient = new WebHDFSClient(myUri, userName);
+
+
+                var frames = GetFrames(metadata.FilePath).ToArray();
+
+                var newGuid = metadata.Guid;
+                var newPath = $"C:\\Vids\\{newGuid.ToString()}\\";
+
+                if (!Directory.Exists(newPath))
+                    Directory.CreateDirectory(newPath);
+
+                myClient.CreateDirectory("/" + newGuid.ToString()).Wait();
+
+
+                for (int i = 0; i < frames.Length; i++)
+                {
+                    string srcPath = Path.Combine(newPath, $"{i}.jpg");
+                    frames[i].Save(Path.Combine(newPath, $"{i}.jpg"), ImageFormat.Jpeg);
+                    myClient.CreateFile(srcPath, "/" + newGuid.ToString() + "/" + $"{i}.jpg").Wait();
+                }
+
+                File.WriteAllLines(Path.Combine(newPath, "info.ini"), new string[] { frames.Length.ToString() });
+                myClient.CreateFile(Path.Combine(newPath, "info.ini"), "/" + newGuid.ToString() + "/" + "info.ini").Wait();
+
+                File.Delete(metadata.FilePath);
+
+                //list file contents of destination directory
+                Console.WriteLine();
+                Console.WriteLine("Contents of " + newGuid.ToString());
+
+                myClient.GetDirectoryStatus("/" + newGuid.ToString()).ContinueWith(
+                     ds => ds.Result.Files.ToList().ForEach(
+                     f => Console.Write(" " + f.PathSuffix)
+                     )).ContinueWith(x => Console.WriteLine());
+
+                newMetadata.Guid = newGuid.ToString();
+                newMetadata.ClassificatorsUsed = string.Empty;//metadata.Classificators;
+
+
+                return newMetadata;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
             }
 
-            File.WriteAllLines(Path.Combine(newPath, "info.ini"), new string[] { frames.Length.ToString() } );
-            File.Delete(metadata.FilePath);
-
-            newMetadata.Guid = newGuid.ToString();
-            newMetadata.ClassificatorsUsed = string.Empty;
-            
-
-            return newMetadata;
         }
 
         private static RabbitMqFileMessage NormalizeVideoFile(RabbitMqFileMessage tempFileMetadata)
@@ -124,6 +153,7 @@ namespace VideoPreparer
             newMetadata.FilePath = newFilePath;
             newMetadata.Extension = Path.GetExtension(newFilePath);
             newMetadata.FileName = Path.GetFileName(newFilePath);
+            newMetadata.Guid = tempFileMetadata.Guid;
 
 
             return newMetadata;
@@ -174,6 +204,7 @@ namespace VideoPreparer
         public string FilePath { get; set; }
         public string Extension { get; set; }
         public string FileName { get; set; }
+        public string Guid { get; set; }
     }
 
     public class RabbitMqClassificatorMessage

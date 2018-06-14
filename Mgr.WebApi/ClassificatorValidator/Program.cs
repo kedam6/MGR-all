@@ -44,7 +44,7 @@ namespace ClassificatorValidator
 
                     channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
 
-                    await RabbitMqService.EnqueueObject(tempFileMetadata, "ready_files");
+                    //await RabbitMqService.EnqueueObject(tempFileMetadata, "ready_files");
 
                     Console.WriteLine(" [x] Sent to Spark {0}", tempFileMetadata.Guid);
                 };
@@ -79,7 +79,7 @@ namespace ClassificatorValidator
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = @"C:\spark\bin\spark-submit.cmd",
-                    Arguments = $@"--master {sparkAddress} C:\recognition\sparkscript.py -i {tempFileMetadata.Guid} -p C:\recognition\model.txt -m C:\recognition\model.caffemodel",
+                    Arguments = $@"--executor-cores 1 --executor-memory 1G --driver-memory 2G --master {sparkAddress} C:\recognition\sparkscript.py -i {tempFileMetadata.Guid} -p C:\recognition\model.txt -m C:\recognition\model.caffemodel",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true

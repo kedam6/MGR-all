@@ -1,24 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Upload file";
 }
 
 <form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Index">
-    <div ng-controller="myCtrl">
-        <ul>
-            <li id="errorMessages" class="error" data-ng-repeat="e in errors">
-                {{e}}
-            </li>
-        </ul>
-        <div class="form-group">
-            <div class="col-md-10">
-                <p>Upload video here:</p>
-                <input type="file" name="file" />
-            </div>
+    <div class="form-group">
+        <div class="input-group input-file" name="Fichier1">
+            <input type="file" name="file" class="form-control" placeholder='Choose a file...' />
         </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" value="Upload" />
-            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-primary btn-sm" value="Upload" />
         </div>
     </div>
 </form>

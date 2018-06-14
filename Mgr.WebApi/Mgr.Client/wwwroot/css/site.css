@@ -10,6 +10,21 @@
     padding-right: 15px;
 }
 
+.bodyWrap {
+    width: 500px;
+}
+
+.header, .content {
+    width: 100%;
+    float: left;
+    font-size: 20px;
+}
+.footer {
+    float: inherit;
+    position: fixed;
+    bottom: 0px;
+}
+
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,

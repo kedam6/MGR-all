@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Done";
+}
+
+
+<div class="container">
+    <h2>Done</h2>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    Item type
+                </th>
+                <th>
+                    Number of hits
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Occurences)
+            {
+                <tr>
+                    <td>
+                        @item.Key
+                    </td>
+                    <td>
+                        @(((Dictionary<string, int>)ViewBag.Ret.Occurences)[item.Key])
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

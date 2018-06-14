@@ -20,7 +20,12 @@ namespace Mgr.Client
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseKestrel()
+                .UseKestrel(
+                o =>
+                {
+                    o.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(30);
+                }
+                )
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .Build();

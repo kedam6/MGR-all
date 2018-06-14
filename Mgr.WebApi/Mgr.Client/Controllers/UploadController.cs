@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mgr.Client.Attributes;
@@ -36,6 +37,7 @@ namespace Mgr.Client.Controllers
 
         public async Task<IActionResult> Post(IFormFile file)
         {
+
             if(file != null)
             {
                 var extension = Path.GetExtension(file.FileName);
@@ -43,13 +45,22 @@ namespace Mgr.Client.Controllers
                 if(AllowedExtensions.IsAllowedExtension(extension))
                 {
                     var path = await TempFileHelper.SaveToTempFolder(file);
+                    var guidOfAction = Guid.NewGuid();
 
-                    await RabbitMqService.EnqueueFile(path, extension, file.FileName, "temp_files");
+                    await RabbitMqService.EnqueueFile(path, extension, file.FileName, guidOfAction.ToString(), "temp_files");
+
+                    var returned = await RabbitMqService.GetResultFromSpark(guidOfAction.ToString());
+
+                    returned.Occurences = returned.Occurences.Where(x => x.Value != 0).ToDictionary(x => x.Key, x => x.Value);
+
+                    ViewBag.Ret = returned;
+                    return View(returned);
+                    //return Ok(returned);
                 }
 
 
 
-                return Ok(new { count = 1, file.Length });
+
             }
 
             return BadRequest("Bad file extension");
